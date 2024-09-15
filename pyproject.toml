@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "mail-sendler"
+version = "0.1.0"
+description = ""
+authors = ["Viktor Nikulaev <viktor_1611@mail.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+django = "^5.1.1"
+psycopg2-binary = "^2.9.9"
+pillow = "^10.4.0"
+ipython = "^8.27.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
