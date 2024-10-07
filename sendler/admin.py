@@ -18,8 +18,8 @@ class MessageAdmin(admin.ModelAdmin):
 
 @admin.register(MailSettings)
 class MailSettingsAdmin(admin.ModelAdmin):
-    list_display = ('id', 'first_time_send', 'periodicity', 'status', 'client', 'message')
-    list_filter = ('periodicity', 'status', 'client', 'message')
+    list_display = ('id', 'first_time_send', 'periodicity', 'status', 'message')
+    list_filter = ('periodicity', 'status', 'clients', 'message')
     search_fields = ('status', 'client', 'message')
 
 
@@ -28,6 +28,7 @@ class LogAdmin(admin.ModelAdmin):
     list_display = ('id', 'date_last_attempt', 'attempt_status', 'server_response', 'mailing')
     list_filter = ('attempt_status', 'server_response', 'mailing')
     search_fields = ('server_response',)
+
 
 
 
