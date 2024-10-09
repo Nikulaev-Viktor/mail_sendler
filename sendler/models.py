@@ -55,6 +55,7 @@ class MailSettings(models.Model):
                                    choices=CHOICES_PERIODICITY, help_text='Выберете периодичность рассылки')
     status = models.CharField(max_length=50, default='CREATE', verbose_name='статус рассылки', choices=CHOICES_STATUS,
                               help_text='статус рассылки')
+    is_active = models.BooleanField(default=True, verbose_name='Активация рассылки')
     clients = models.ManyToManyField(Client, verbose_name='клиенты', help_text='выберете клиентов для рассылки',
                                      related_name='mailings')
     message = models.ForeignKey(Message, on_delete=models.CASCADE, verbose_name='сообщение',
