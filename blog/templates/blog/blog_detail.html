@@ -1,0 +1,28 @@
+{% extends 'sendler/base.html' %}
+{% block content %}
+{% load my_tags %}
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+    <div class="col">
+        <div class="card shadow-sm">
+            <img src="/media/{{ blog.preview }}"/>
+            <h5 class="card-title">{{ object.name }}</h5>
+            <div class="card-body">
+                <h5 class="card-title">{{ blog.title }}</h5>
+                <p class="card-text">{{ blog.content }}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                        <a class="btn btn-primary" href="{% url 'blog:list' %}" role="button">Назад</a>
+                    </div>
+                    <div class="btn-group">
+                        <a class="btn btn-warning" href="{% url 'blog:update' blog.pk %}" role="button">Редактировать</a>
+                    <div>
+                        <a class="btn btn-danger" href="{% url 'blog:delete' blog.pk %}" role="button">Удалить</a>
+                    </div>
+                </div>
+                <small class="text-body-secondary">Количество просмотров {{ object.views_count }}</small>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}

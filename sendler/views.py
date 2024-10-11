@@ -1,4 +1,4 @@
-from random import sample
+from random import random, sample
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
@@ -16,10 +16,10 @@ class IndexView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['total_newsletters'] = MailSettings.objects.count()
-        context['active_newsletters'] = MailSettings.objects.filter(status='created').count()
+        context['mailing_count'] = MailSettings.objects.count()
+        context['active_mailing'] = MailSettings.objects.filter(status='CREATE').count()
         context['unique_clients'] = Client.objects.distinct().count()
-        all_posts = list(Blog.objects.filter(is_active=True))
+        all_posts = list(Blog.objects.filter(is_published=True))
         context['random_posts'] = sample(all_posts, min(len(all_posts), 3))
         return context
 
@@ -36,5 +36,7 @@ class ContactsView(View):
             'title': 'Контакты'
         }
         return render(request, 'sendler/contacts.html', context)
+
+
 
 

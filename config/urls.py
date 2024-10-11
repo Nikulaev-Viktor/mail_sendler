@@ -24,4 +24,5 @@ urlpatterns = [
     path('', include('sendler.urls', namespace='sendler')),
     path('contacts/', include("sendler.urls")),
     path('blog/', include('blog.urls', namespace='blog')),
+    path('users/', include('users.urls', namespace='users')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

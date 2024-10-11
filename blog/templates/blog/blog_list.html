@@ -1,0 +1,39 @@
+{% extends 'sendler/base.html' %}
+{% load my_tags %}
+{% block content %}
+
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+    {% for blog in object_list %}
+    <div class="col">
+        {% if blog.is_published %}
+        <div class="card shadow-sm">
+            <div class="card-body">
+
+                <img src="/media/{{ blog.preview }}" width="250" height="300/>
+
+
+                <small class="text-body-secondary">Дата создания {{ blog.created_at }}</small>
+                <small class="text-body-secondary">Количество просмотров {{ blog.views_count }}</small>
+
+                <small class="text-body-secondary">SLUG ({{ blog.slug }})</small>
+
+                <h5 class="card-title">{{ blog.title }} </h5>
+
+                <p class="card-text">{{ blog.content|truncatechars:100 }}</p>
+                <div class="d-flex justify-content-between align-items-center">
+
+
+                    <a class="btn btn-primary" href="{% url 'sendler:index' %}" role="button">На главную</a>
+                    <a class="btn btn-success" href="{% url 'blog:detail' blog.pk %}" role="button">Посмотреть</a>
+                    <a class="btn btn-warning" href="{% url 'blog:update' blog.pk %}" role="button">Редактировать</a>
+                    <a class="btn btn-danger" href="{% url 'blog:delete' blog.pk %}" role="button">Удалить</a>
+
+
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
