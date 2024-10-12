@@ -2,6 +2,8 @@ from django.utils import timezone
 
 from django.db import models
 
+from users.models import User
+
 NULLABLE = {'blank': True, 'null': True}
 
 
@@ -12,6 +14,7 @@ class Client(models.Model):
                                  **NULLABLE)
     email = models.EmailField(verbose_name='email получателя', help_text='Введите email клиента')
     comment = models.TextField(verbose_name='комментарий', **NULLABLE, help_text='Комментарий')
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
 
     def __str__(self):
         return f'{self.last_name} {self.first_name}: {self.email}'
@@ -28,6 +31,8 @@ class Message(models.Model):
     message_text = models.TextField(verbose_name='текст сообщения', help_text='Сообщение')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='дата создания')
     update_at = models.DateTimeField(auto_now=True, verbose_name='дата обновления')
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
+
 
     def __str__(self):
         return self.message_title
@@ -60,6 +65,7 @@ class MailSettings(models.Model):
                                      related_name='mailings')
     message = models.ForeignKey(Message, on_delete=models.CASCADE, verbose_name='сообщение',
                                 help_text='выберете сообщение', related_name='mailings')
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
 
     def __str__(self):
         return f'{self.status}'
