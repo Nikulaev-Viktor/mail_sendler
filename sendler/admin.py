@@ -5,7 +5,7 @@ from sendler.models import Client, Message, MailSettings, Log
 
 @admin.register(Client)
 class ClientAdmin(admin.ModelAdmin):
-    list_display = ('id', 'first_name', 'last_name', 'email')
+    list_display = ('id', 'first_name', 'last_name', 'email', 'owner')
     list_filter = ('email',)
     search_fields = ('first_name', 'last_name', 'email')
 

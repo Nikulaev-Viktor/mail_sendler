@@ -2,6 +2,7 @@ import secrets
 import random
 import string
 
+
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.views import LoginView, PasswordResetView
 from django.core.mail import send_mail
@@ -9,7 +10,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, UpdateView
 
-from users.forms import UserRegisterForm, UserLoginForm, UserProfileForm, ResetPassword
+from users.forms import UserRegisterForm, UserLoginForm, UserProfileForm, ResetPasswordForm
 from users.models import User
 from config.settings import EMAIL_HOST_USER
 

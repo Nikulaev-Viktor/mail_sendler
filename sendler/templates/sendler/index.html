@@ -191,7 +191,7 @@
 
                 <h2>Активные рассылки</h2>
                 <p>Количество активных рассылок: {{ active_mailing }}</p>
-                <p><a class="btn btn-secondary" href="#">Подробнее &raquo;</a></p>
+                <p><a class="btn btn-secondary" href="{% url 'sendler:message_list' %}">Подробнее &raquo;</a></p>
             </div><!-- /.col-lg-4 -->
             <div class="col-lg-4">
                 <svg class="bd-placeholder-img rounded-circle" width="140" height="140"
@@ -203,7 +203,7 @@
 
                 <h2>Клиенты для рассылки</h2>
                 <p>Количество уникальных клиентов для рассылок: {{ unique_clients }}</p>
-                <p><a class="btn btn-secondary" href="#">Подробнее &raquo;</a></p>
+                <p><a class="btn btn-secondary" href="{% url 'sendler:client_list' %}">Подробнее &raquo;</a></p>
             </div><!-- /.col-lg-4 -->
         </div><!-- /.row -->
 

@@ -29,12 +29,12 @@ class BlogListView(LoginRequiredMixin, ListView):
         queryset = queryset.filter(is_published=True)
         return queryset
 
-    # def get_context_data(self, *args, **kwargs):
-    #     context_data = super().get_context_data(*args, **kwargs)
-    #     blog = Blog.objects.all()
-    #
-    #     context_data['object_list'] = blog
-    #     context_data['title'] = 'Блог'
+    def get_context_data(self, *args, **kwargs):
+        context_data = super().get_context_data(*args, **kwargs)
+        blog = Blog.objects.all()
+
+        context_data['object_list'] = blog
+        context_data['title'] = 'Блог'
 
         return context_data
 
