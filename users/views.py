@@ -10,7 +10,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, UpdateView
 
-from users.forms import UserRegisterForm, UserLoginForm, UserProfileForm, ResetPasswordForm
+from users.forms import UserRegisterForm, UserLoginForm, UserProfileForm, ResetPasswordForm, UserModeratorForm
 from users.models import User
 from config.settings import EMAIL_HOST_USER
 
@@ -79,3 +79,9 @@ class ProfileView(UpdateView):
 
     def get_object(self, queryset=None):
         return self.request.user
+
+    def get_form_class(self):
+        user = self.request.user
+        if user.has_perm("users.can_view_user") and user.has_perm("users.can_block_user"):
+            return UserModeratorForm
+        return UserProfileForm

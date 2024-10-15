@@ -1,4 +1,4 @@
-from django.forms import BooleanField
+from django.forms import BooleanField, DateTimeInput
 from django import forms
 from django.forms import ModelForm, BooleanField
 
@@ -22,7 +22,7 @@ class ClientForm(StyleFormMixin, ModelForm):
 
     class Meta:
         model = Client
-        fields = ('email', 'first_name', 'last_name', 'comment')
+        fields = ('email', 'first_name', 'last_name', 'comment', 'owner')
 
 
 class MessageForm(StyleFormMixin, ModelForm):
@@ -38,7 +38,10 @@ class MailSettingsForm(StyleFormMixin, ModelForm):
 
     class Meta:
         model = MailSettings
-        fields = ('periodicity', 'first_time_send', 'status', 'message', 'clients')
+        fields = '__all__'
+        widgets = {
+            'first_time_send': DateTimeInput(format='%Y-%m-%d %H:%M', attrs={'type': 'datetime-local'})
+        }
 
 
 class LogView(StyleFormMixin, ModelForm):

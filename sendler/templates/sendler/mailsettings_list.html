@@ -2,14 +2,12 @@
 {% block content %}
 
 <div class="container">
-
     <h1 class="fw-light">Сервис Email рассылок</h1>
     <hr>
-    <nav class="ms-5">
     <div class="row text-center">
         <div class="col-12 mb-5 pt-md-5 text-center">
             <a class="btn btn-primary" href="{% url 'sendler:index' %}" role="button">Назад</a>
-            <a class="btn btn-primary" href="{% url 'sendler:client_create' %}" role="button">Добавить клиента</a>
+            <a class="btn btn-primary" href="{% url 'sendler:mail_settings_create' %}" role="button">Добавить рассылку</a>
         </div>
     </div>
     <div class="row text-center">
@@ -17,15 +15,16 @@
         <div class="col-3">
             <div class="card mb-4 box-shadow">
                 <div class="card-header">
-                    <h6 class="my-0 font-weight-normal">{{ object.first_name}} {{ object.last_name}}</h6>
+                    <h6 class="my-0 font-weight-normal">Название: {{ object.message }}</h6>
                 </div>
                 <div class="card-body">
-                    <p>{{ object.email }}</p>
-                    <a class="btn btn-outline-primary" href="{% url 'sendler:client_detail' object.pk %}">Подробнее</a>
+                    <p>Статус:{{ object.status }}</p>
+                    <p>Периодичность:{{ object.periodicity }}</p>
+                    <a class="btn btn-outline-primary" href="{% url 'sendler:mail_settings_detail' object.pk %}">Подробнее</a>
                 </div>
             </div>
          </div>
-        {% endfor %}
+     {% endfor %}
     </div>
 </div>
 

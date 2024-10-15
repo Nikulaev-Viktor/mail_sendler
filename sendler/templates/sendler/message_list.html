@@ -2,6 +2,8 @@
 {% block content %}
 
 <div class="container">
+    <h1 class="fw-light">Сервис Email рассылок</h1>
+    <hr>
     <div class="row text-center">
         <div class="col-12 mb-5 pt-md-5 text-center">
             <a class="btn btn-primary" href="{% url 'sendler:index' %}" role="button">Назад</a>
@@ -13,7 +15,10 @@
         <div class="col-3">
             <div class="card mb-4 box-shadow">
                 <div class="card-header">
-                    <h6 class="my-0 font-weight-normal">{{ object.subject}}</h6>
+                    <p class="card-text">Тема письма: {{ object.message_title }}</p>
+                <p class="card-text">Соообщение: {{ object.message_text|truncatechars:100 }}</p>
+                    <p class="card-text">Создано: {{ object.created_at }}</p>
+                    <p class="card-text">Обновлено: {{ object.update_at }}</p>
                 </div>
                 <div class="card-body">
                     <p>{{ object.email }}</p>

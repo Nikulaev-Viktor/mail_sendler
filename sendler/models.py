@@ -33,7 +33,6 @@ class Message(models.Model):
     update_at = models.DateTimeField(auto_now=True, verbose_name='дата обновления')
     owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
 
-
     def __str__(self):
         return self.message_title
 
@@ -73,6 +72,11 @@ class MailSettings(models.Model):
     class Meta:
         verbose_name = 'рассылка'
         verbose_name_plural = 'рассылки'
+
+        permissions = [
+            ('can_view_mailsettings', 'может просматривать настройки рассылки'),
+            ('can_edit_mailsettings', 'может отключать/включать рассылки')
+        ]
 
 
 class Log(models.Model):

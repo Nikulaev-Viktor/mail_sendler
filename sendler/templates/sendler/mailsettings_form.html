@@ -7,9 +7,9 @@
         <div class="col-6">
             <div class="card">
                 {% if object %}
-                 <h4 class="card-text text-center">Редактировать сообщение</h4>
+                 <h4 class="card-text text-center">Редактировать рассылку</h4>
                  {% else %}
-                 <h4 class="card-text text-center">Добавить сообщение</h4>
+                 <h4 class="card-text text-center">Добавить рассылку</h4>
                  {% endif %}
 
                 <div class="card-body">
@@ -23,7 +23,7 @@
                      Создать
                      {% endif %}
                  </button>
-                 <a class="btn btn-primary mb-2" href="{% url 'sendler:message_list' %}" role="button">Назад</a>
+                 <a class="btn btn-primary mb-2" href="{% url 'sendler:mail_settings_list' %}" role="button">Назад</a>
             </div>
         </div>
     </form>

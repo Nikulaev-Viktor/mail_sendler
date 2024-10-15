@@ -21,3 +21,9 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.email
+
+    permissions = [
+        ('can_view_user', 'может просматривать профиль пользователя'),
+        ('can_block_user', 'может блокировать пользователя')
+    ]
+
