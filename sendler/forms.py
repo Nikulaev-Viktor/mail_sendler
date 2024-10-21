@@ -56,4 +56,4 @@ class MailSettingsModeratorForm(StyleFormMixin, ModelForm):
 
     class Meta:
         model = MailSettings
-        exclude = ('owner',)
+        fields = ('is_active',)

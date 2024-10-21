@@ -1,6 +1,6 @@
 from random import random, sample
 
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import render
 from django.urls import reverse_lazy
@@ -61,7 +61,10 @@ class ClientListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         user = self.request.user
-        return super().get_queryset().filter(owner=user)
+        if user.is_superuser:
+            return Client.objects.all()
+        else:
+            return Client.objects.filter(owner=user)
 
 
 class ClientDetailView(LoginRequiredMixin, DetailView):
@@ -110,7 +113,10 @@ class MessageListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         user = self.request.user
-        return super().get_queryset().filter(owner=user)
+        if user.is_superuser:
+            return Message.objects.all()
+        else:
+            return Message.objects.filter(owner=user)
 
 
 class MessageDetailView(LoginRequiredMixin, DetailView):
@@ -159,12 +165,27 @@ class MailSettingsListView(LoginRequiredMixin, ListView):
     """Контроллер списка настроек рассылки"""
 
     model = MailSettings
+    template_name = 'mailsettings_list.html.html'
 
     def get_queryset(self):
         user = self.request.user
-        if user.has_perm('sendler.can_view_mail_settings'):
-            return super().get_queryset()
-        return super().get_queryset().filter(owner=user)
+        if user.is_superuser or user.has_perm('sendler.can_view_mail_settings'):
+            return MailSettings.objects.all()
+        return MailSettings.objects.filter(owner=user)
+
+    # def test_func(self):
+    #     user = self.request.user
+    #     if user.is_superuser:
+    #         return True
+    #     if user.has_perm('sendler.can_view_mail_settings'):
+    #         return True
+    #     return False
+
+    # def get_queryset(self):
+    #     user = self.request.user
+    #     if user.is_superuser or user.has_perm('sendler.can_view_mail_settings'):
+    #         return MailSettings.objects.all()
+    #     return MailSettings.objects.filter(owner=user)
 
 
 class MailSettingsDetailView(LoginRequiredMixin, DetailView):
@@ -181,18 +202,22 @@ class MailSettingsUpdateView(LoginRequiredMixin, UpdateView):
     """Контроллер редактирования настройки рассылки"""
 
     model = MailSettings
-    form_class = MailSettingsForm
+    fields = [
+
+        'is_active',
+    ]
+    # form_class = MailSettingsForm
 
     def get_success_url(self):
         return reverse_lazy('sendler:mail_settings_detail', args=[self.kwargs.get('pk')])
 
-    def get_form_class(self):
-        user = self.request.user
-        if user == self.object.owner:
-            return MailSettingsForm
-        if user.has_perm("sendler.can_view_mail_settings") and user.has_perm("sendler.can_edit_mailsettings"):
-            return MailSettingsModeratorForm
-        raise PermissionDenied
+    # def get_form_class(self):
+    #     user = self.request.user
+    #     if user == self.object.owner:
+    #         return MailSettingsForm
+    #     if user.has_perm('sendler.can_view_mail_settings') and user.has_perm('sendler.can_change_mail_settings'):
+    #         return MailSettingsModeratorForm
+    #     raise PermissionDenied
 
 
 class MailSettingsDeleteView(LoginRequiredMixin, DeleteView):
@@ -206,10 +231,10 @@ class LogListView(LoginRequiredMixin, ListView):
     """Контроллер списка попыток рассылки"""
 
     model = Log
-    template_name = 'sendler/mailing_log_list.html'
+    template_name = 'sendler/log_list.html'
 
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        mail_settings_pk = self.kwargs.get('pk')
-        queryset = queryset.filter(mail_settings__pk=mail_settings_pk)
-        return queryset
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['attempts'] = 'Попытки рассылки'
+        context['log_list'] = Log.objects.all().order_by('-id')[:10]
+        return context

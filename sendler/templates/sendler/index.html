@@ -117,8 +117,13 @@
                         <h1>Всё необходимое для email-рассылок</h1>
                         <h2>С нашим сервисом вы сможете максимально эффективно использовать отправку писем</h2>
                         <hr>
+                        {% if user.is_authenticated %}
                         <a class="btn btn-lg btn-primary" href="{% url 'sendler:mail_settings_create' %}">Создать
                             рассылку</a>
+                        {% else %}
+                        <a class="btn btn-lg btn-primary" href="{% url 'users:register' %}">Регистрация</a>
+                        {% endif %}
+
                     </div>
                 </div>
             </div>

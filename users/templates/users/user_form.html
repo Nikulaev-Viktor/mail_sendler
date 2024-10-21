@@ -18,6 +18,9 @@
                             <button type="submit" role="button" class="btn btn-primary">
                               Сохранить</button>
                              <a class="btn btn-primary" href="{% url 'sendler:index' %}" role="button">На главную</a>
+                            {% if perms.sendler.can_block_user %}
+                        <a class="btn btn-primary" href="{% url 'users:user_list' %}" role="button">Пользователи</a>
+                        {% endif %}
                         </div>
                     </div>
                 </div>

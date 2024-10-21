@@ -12,6 +12,7 @@ class User(AbstractUser):
     phone_number = models.CharField(max_length=35, verbose_name='номер телефона', **NULLABLE, help_text='введите номер телефона')
     avatar = models.ImageField(upload_to='users/avatars/', verbose_name='аватар', **NULLABLE, help_text='загрузите свой аватар')
     token = models.CharField(max_length=100, verbose_name='Token', **NULLABLE)
+    is_active = models.BooleanField(default=True, verbose_name='активный')
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
@@ -23,7 +24,7 @@ class User(AbstractUser):
         return self.email
 
     permissions = [
-        ('can_view_user', 'может просматривать профиль пользователя'),
-        ('can_block_user', 'может блокировать пользователя')
+        ('can_view_user', 'Может просматривать пользователей'),
+        ('can_block_user', 'Может блокировать пользователей')
     ]
 

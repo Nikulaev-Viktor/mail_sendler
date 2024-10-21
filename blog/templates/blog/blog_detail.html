@@ -1,9 +1,10 @@
 {% extends 'sendler/base.html' %}
 {% block content %}
 {% load my_tags %}
-<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-    <div class="col">
-        <div class="card shadow-sm">
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <div class="card shadow-sm">
             <img src="/media/{{ blog.preview }}"/>
             <h5 class="card-title">{{ object.name }}</h5>
             <div class="card-body">
@@ -14,9 +15,12 @@
                         <a class="btn btn-primary" href="{% url 'blog:list' %}" role="button">Назад</a>
                     </div>
                     <div class="btn-group">
+                        {% if perms.blog.can_change_blog and perms.blog.can_delete_blog %}
                         <a class="btn btn-warning" href="{% url 'blog:update' blog.pk %}" role="button">Редактировать</a>
                     <div>
+
                         <a class="btn btn-danger" href="{% url 'blog:delete' blog.pk %}" role="button">Удалить</a>
+                        {% endif %}
                     </div>
                 </div>
                 <small class="text-body-secondary">Количество просмотров {{ object.views_count }}</small>

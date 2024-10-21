@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.shortcuts import redirect, get_object_or_404, render
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
@@ -6,10 +6,12 @@ from pytils.translit import slugify
 from blog.models import Blog
 
 
-class BlogCreateView(LoginRequiredMixin, CreateView):
+class BlogCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = Blog
     fields = ('title', 'content', 'preview')
     success_url = reverse_lazy('blog:list')
+    permission_required = 'blog.can_add_blog'
+    extra_context = {'title': 'Создание статьи'}
 
     def form_valid(self, form):
         if form.is_valid():
@@ -42,7 +44,7 @@ class BlogListView(LoginRequiredMixin, ListView):
 class BlogDetailView(LoginRequiredMixin, DetailView):
     model = Blog
     template_name = 'blog/blog_detail.html'
-    context_object_name = 'blog'
+    extra_context = {'title': 'Просмотр статьи'}
 
     def get_object(self, queryset=None):
         self.object = super().get_object(queryset)
@@ -51,9 +53,11 @@ class BlogDetailView(LoginRequiredMixin, DetailView):
         return self.object
 
 
-class BlogUpdateView(LoginRequiredMixin, UpdateView):
+class BlogUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = Blog
     fields = ('title', 'content', 'preview')
+    permission_required = 'blog.can_change_blog'
+    extra_context = {'title': 'Редактирование статьи'}
 
     # success_url = reverse_lazy('blog:list')
 
@@ -69,9 +73,11 @@ class BlogUpdateView(LoginRequiredMixin, UpdateView):
         return reverse('blog:detail', args=[self.kwargs.get('pk')])
 
 
-class BlogDeleteView(LoginRequiredMixin, DeleteView):
+class BlogDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = Blog
     success_url = reverse_lazy('blog:list')
+    permission_required = 'blog.can_delete_blog'
+    extra_context = {'title': 'Удаление статьи'}
 
 
 def toggle_activity(request, pk):

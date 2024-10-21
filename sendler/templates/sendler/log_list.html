@@ -1,5 +1,7 @@
 {% extends 'sendler/base.html' %}
 {% block content %}
+<a class="btn btn-primary" href="{% url 'sendler:index' %}" role="button">На главную</a>
+<br>
 <div class="pricing-header px-3 py-3 pb-md-4 mx-auto text-center">
     <p class="lead">Информация о рассылках</p>
 </div>
@@ -7,17 +9,17 @@
       <h1 class="fw-light">Сервис Email рассылок</h1>
     <hr>
     <div class="row text-center">
-        {% for object in object_list %}
-        <div class="col-12">
+        {% for log in log_list %}
+        <div class="col-6">
             <div class="card mb-4 box-shadow">
                 <div class="card-header">
-                    <h5 class="my-0 font-weight-normal">{{ object.mailing }}</h5>
+                    <h5 class="my-0 font-weight-normal">{{ log.mailing }}</h5>
                     <br>
-                    <h6 class="my-0 font-weight-normal">{{ object.date_last_attempt }}</h6>
-                    <h6 class="my-0 font-weight-normal">{{ object.attempt_status }}</h6>
-                    <h6 class="my-0 font-weight-normal">{{ object.server_response }}</h6>
+                    <h6 class="my-0 font-weight-normal">Дата отправки: {{ log.date_last_attempt }}</h6>
+                    <h6 class="my-0 font-weight-normal">Статус отправки: {{ log.attempt_status }}</h6>
+                    <h6 class="my-0 font-weight-normal">Ответ Сервера: {{ log.server_response }}</h6>
                     <br>
-                    <a href="" class="btn btn-lg btn-block btn-outline-primary">Назад</a>
+                    <a href="{% url 'sendler:mail_settings_list' %}" class="btn btn-lg btn-block btn-outline-primary">Назад</a>
                 </div>
             </div>
         </div>

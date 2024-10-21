@@ -73,9 +73,11 @@ class MailSettings(models.Model):
         verbose_name = 'рассылка'
         verbose_name_plural = 'рассылки'
 
-        permissions = [
-            ('can_view_mailsettings', 'может просматривать настройки рассылки'),
-            ('can_edit_mailsettings', 'может отключать/включать рассылки')
+        permissions = permissions = [
+            ('can_view_mail_settings', 'Может просматривать рассылки'),
+            ('can_change_mail_settings', 'Может отключать рассылки'),
+            ('can_view_user', 'Может просматривать пользователей'),
+            ('can_block_user', 'Может блокировать пользователей')
         ]
 
 

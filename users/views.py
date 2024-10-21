@@ -2,15 +2,16 @@ import secrets
 import random
 import string
 
-
 from django.contrib.auth.hashers import make_password
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.views import LoginView, PasswordResetView
+from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy, reverse
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import CreateView, UpdateView, ListView, DetailView, DeleteView
 
-from users.forms import UserRegisterForm, UserLoginForm, UserProfileForm, ResetPasswordForm, UserModeratorForm
+from users.forms import UserRegisterForm, UserLoginForm, UserProfileForm, ResetPasswordForm, UserForm
 from users.models import User
 from config.settings import EMAIL_HOST_USER
 
@@ -72,7 +73,7 @@ class UserLoginView(LoginView):
     redirect_authenticated_user = True
 
 
-class ProfileView(UpdateView):
+class ProfileView(LoginRequiredMixin, UpdateView):
     model = User
     form_class = UserProfileForm
     success_url = reverse_lazy('users:profile')
@@ -80,8 +81,35 @@ class ProfileView(UpdateView):
     def get_object(self, queryset=None):
         return self.request.user
 
-    def get_form_class(self):
-        user = self.request.user
-        if user.has_perm("users.can_view_user") and user.has_perm("users.can_block_user"):
-            return UserModeratorForm
-        return UserProfileForm
+
+class UserListView(LoginRequiredMixin, ListView):
+    model = User
+    template_name = 'user_list.html'
+    # permission_required = 'users.can_view_user'
+
+
+class UserDetailView(LoginRequiredMixin, DetailView):
+    model = User
+
+
+class UserUpdateView(LoginRequiredMixin, UpdateView):
+    model = User
+    fields = [
+        'id',
+        'email',
+        'is_active',
+    ]
+    success_url = reverse_lazy('users:user_list')
+
+    # def get_form_class(self):
+    #     user = self.request.user
+    #     if user.has_perm('users.can_view_user') and user.has_perm(
+    #             "users.can_change_user"
+    #     ):
+    #         return UserForm
+    #     raise PermissionDenied
+
+
+class UserDeleteView(LoginRequiredMixin, DeleteView):
+    model = User
+    success_url = reverse_lazy('users:user_list')

@@ -1,0 +1,36 @@
+{% extends 'sendler/base.html' %}
+{% block content %}
+    <a class="btn btn-primary" href="{% url 'sendler:index' %}" role="button">На главную</a>
+<br>
+
+    <div class="container">
+      <h1 class="fw-light">Пользователи Email рассылок</h1>
+    <hr>
+        <div class="row">
+
+            {% for object in object_list %}
+                <div class="col-4">
+                    <div class="card mb-4 box-shadow">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ object.first_name }}</h5>
+                            <p class="card-text">E-mail: {{ object.email }}</p>
+
+
+
+                            {% if not object.is_active %}
+                                <p class="card-text">Заблокирован</p>
+                            {% else %}
+                                <p class="card-text">Активный</p>
+                            {% endif %}
+
+                            <a href="{% url 'users:user_update' object.pk %}" class="stretched-link">Подробнее</a>
+
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+
+{% endblock %}
