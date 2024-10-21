@@ -5,6 +5,7 @@ from blog.models import NULLABLE
 
 
 class User(AbstractUser):
+    """Модель пользователей"""
     username = None
 
     first_name = models.CharField(max_length=100, verbose_name='имя')
@@ -27,4 +28,5 @@ class User(AbstractUser):
         ('can_view_user', 'Может просматривать пользователей'),
         ('can_block_user', 'Может блокировать пользователей')
     ]
+
 

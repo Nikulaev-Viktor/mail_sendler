@@ -7,18 +7,21 @@ from users.models import User
 
 
 class UserRegisterForm(StyleFormMixin, UserCreationForm):
+    """Форм для регистрации пользователя"""
     class Meta:
         model = User
         fields = ('email', 'password1', 'password2')
 
 
 class UserLoginForm(StyleFormMixin, AuthenticationForm):
+    """Форма для авторизации пользователя"""
     class Meta:
         model = User
         fields = ('email', 'password')
 
 
-class UserProfileForm(UserChangeForm):
+class UserProfileForm(StyleFormMixin, UserChangeForm):
+    """Форма для редактирования профиля пользователя"""
     class Meta:
         model = User
         fields = ('first_name', 'email', 'phone_number', 'avatar')
@@ -29,13 +32,15 @@ class UserProfileForm(UserChangeForm):
         self.fields['password'].widget = forms.HiddenInput()
 
 
-class UserForm(ModelForm):
+class UserForm(StyleFormMixin, ModelForm):
+    """Форма для блокировки пользователя"""
     class Meta:
         model = User
         fields = ("is_active",)
 
 
 class ResetPasswordForm(StyleFormMixin, PasswordResetForm):
+    """Форма для сброса пароля"""
     class Meta:
         model = User
         fields = ('email',)

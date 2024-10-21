@@ -1,6 +1,4 @@
-from random import random, sample
-
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import render
 from django.urls import reverse_lazy
@@ -173,20 +171,6 @@ class MailSettingsListView(LoginRequiredMixin, ListView):
             return MailSettings.objects.all()
         return MailSettings.objects.filter(owner=user)
 
-    # def test_func(self):
-    #     user = self.request.user
-    #     if user.is_superuser:
-    #         return True
-    #     if user.has_perm('sendler.can_view_mail_settings'):
-    #         return True
-    #     return False
-
-    # def get_queryset(self):
-    #     user = self.request.user
-    #     if user.is_superuser or user.has_perm('sendler.can_view_mail_settings'):
-    #         return MailSettings.objects.all()
-    #     return MailSettings.objects.filter(owner=user)
-
 
 class MailSettingsDetailView(LoginRequiredMixin, DetailView):
     """Контроллер детального просмотра настройки рассылки"""
@@ -202,22 +186,23 @@ class MailSettingsUpdateView(LoginRequiredMixin, UpdateView):
     """Контроллер редактирования настройки рассылки"""
 
     model = MailSettings
-    fields = [
 
-        'is_active',
-    ]
-    # form_class = MailSettingsForm
+    form_class = MailSettingsForm
 
     def get_success_url(self):
         return reverse_lazy('sendler:mail_settings_detail', args=[self.kwargs.get('pk')])
 
-    # def get_form_class(self):
-    #     user = self.request.user
-    #     if user == self.object.owner:
-    #         return MailSettingsForm
-    #     if user.has_perm('sendler.can_view_mail_settings') and user.has_perm('sendler.can_change_mail_settings'):
-    #         return MailSettingsModeratorForm
-    #     raise PermissionDenied
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)  # Извлекаем аргумент 'user' из kwargs
+        super().__init__(*args, **kwargs)
+
+    def get_form_class(self):
+        user = self.request.user
+        if user == self.object.owner or user.is_superuser:
+            return MailSettingsForm
+        if user.has_perm('sendler.can_view_mail_settings') and user.has_perm('sendler.can_change_mail_settings'):
+            return MailSettingsModeratorForm
+        raise PermissionDenied
 
 
 class MailSettingsDeleteView(LoginRequiredMixin, DeleteView):

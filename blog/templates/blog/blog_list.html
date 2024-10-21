@@ -2,14 +2,15 @@
 {% load my_tags %}
 {% block content %}
     <a class="btn btn-primary" href="{% url 'sendler:index' %}" role="button">На главную</a>
-<br>
-
-<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-    {% if perms.blog.can_add_blog %}
+{% if perms.blog.can_add_blog %}
         <div>
             <a href="{% url 'blog:create' %}" class="btn btn-outline-secondary">Создать статью</a>
         </div>
     {% endif %}
+<br>
+
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+
 
     {% for blog in object_list %}
     <div class="col">

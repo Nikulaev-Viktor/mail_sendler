@@ -1,6 +1,4 @@
-from django.forms import BooleanField, DateTimeInput
-from django import forms
-from django.forms import ModelForm, BooleanField
+from django.forms import ModelForm, BooleanField, DateTimeInput
 
 from sendler.models import Client, Message, MailSettings, Log
 
@@ -53,6 +51,7 @@ class LogView(StyleFormMixin, ModelForm):
 
 
 class MailSettingsModeratorForm(StyleFormMixin, ModelForm):
+    """Форма редактирования настройки рассылки для модераторов"""
 
     class Meta:
         model = MailSettings

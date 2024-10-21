@@ -18,12 +18,8 @@
                     <li><a href="{% url 'users:login' %}" class="text-blue">Вход</a></li>
                     <li><a href="{% url 'users:register' %}" class="text-blue">Регистрация</a></li>
                     {% endif %}
-                    {% if perms.sendler.can_block_user %}
-                    <li><a href="{% url 'users:user_list' %}" class="text-blue">Пользователи</a></li>
-
-                    {% else %}
                     <li><a href="{% url 'blog:list' %}" class="text-blue">Блог</a></li>
-                    {% endif %}
+
                 </ul>
             </div>
         </div>

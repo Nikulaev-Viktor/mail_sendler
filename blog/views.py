@@ -7,8 +7,9 @@ from blog.models import Blog
 
 
 class BlogCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    """Контроллер создания статьи"""
     model = Blog
-    fields = ('title', 'content', 'preview')
+    fields = ('title', 'content', 'preview', 'is_published')
     success_url = reverse_lazy('blog:list')
     permission_required = 'blog.can_add_blog'
     extra_context = {'title': 'Создание статьи'}
@@ -23,6 +24,7 @@ class BlogCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
 
 
 class BlogListView(LoginRequiredMixin, ListView):
+    """Контроллер просмотра статей"""
     model = Blog
     template_name = 'blog/blog_list.html'
 
@@ -42,6 +44,7 @@ class BlogListView(LoginRequiredMixin, ListView):
 
 
 class BlogDetailView(LoginRequiredMixin, DetailView):
+    """Контроллер просмотра статьи"""
     model = Blog
     template_name = 'blog/blog_detail.html'
     extra_context = {'title': 'Просмотр статьи'}
@@ -54,8 +57,9 @@ class BlogDetailView(LoginRequiredMixin, DetailView):
 
 
 class BlogUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    """Контроллер редактирования статьи"""
     model = Blog
-    fields = ('title', 'content', 'preview')
+    fields = ('title', 'content', 'preview', 'is_published')
     permission_required = 'blog.can_change_blog'
     extra_context = {'title': 'Редактирование статьи'}
 
@@ -74,6 +78,7 @@ class BlogUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
 
 
 class BlogDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+    """Контроллер удаления статьи"""
     model = Blog
     success_url = reverse_lazy('blog:list')
     permission_required = 'blog.can_delete_blog'
@@ -81,6 +86,7 @@ class BlogDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
 
 
 def toggle_activity(request, pk):
+    """Функция переключения активности статьи"""
     blog_item = get_object_or_404(Blog, pk=pk)
     if blog_item.is_published:
         blog_item.is_published = False

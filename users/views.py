@@ -3,20 +3,20 @@ import random
 import string
 
 from django.contrib.auth.hashers import make_password
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, PasswordResetView
-from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, UpdateView, ListView, DetailView, DeleteView
 
-from users.forms import UserRegisterForm, UserLoginForm, UserProfileForm, ResetPasswordForm, UserForm
+from users.forms import UserRegisterForm, UserLoginForm, UserProfileForm
 from users.models import User
 from config.settings import EMAIL_HOST_USER
 
 
 class UserCreateView(CreateView):
+    """Контроллер создания пользователя"""
     model = User
     form_class = UserRegisterForm
     template_name = 'users/register.html'
@@ -48,6 +48,7 @@ def email_verification(request, token):
 
 
 class CustomPasswordReset(PasswordResetView):
+    """Контроллер сброса пароля"""
 
     def form_valid(self, form):
         email = form.cleaned_data['email']
@@ -67,6 +68,7 @@ class CustomPasswordReset(PasswordResetView):
 
 
 class UserLoginView(LoginView):
+    """Контроллер логина"""
     model = User
     template_name = 'users/login.html'
     form_class = UserLoginForm
@@ -74,6 +76,7 @@ class UserLoginView(LoginView):
 
 
 class ProfileView(LoginRequiredMixin, UpdateView):
+    """Контроллер профиля"""
     model = User
     form_class = UserProfileForm
     success_url = reverse_lazy('users:profile')
@@ -83,16 +86,19 @@ class ProfileView(LoginRequiredMixin, UpdateView):
 
 
 class UserListView(LoginRequiredMixin, ListView):
+    """Контроллер списка пользователей"""
     model = User
     template_name = 'user_list.html'
     # permission_required = 'users.can_view_user'
 
 
 class UserDetailView(LoginRequiredMixin, DetailView):
+    """Контроллер пользователя"""
     model = User
 
 
 class UserUpdateView(LoginRequiredMixin, UpdateView):
+    """Контроллер редактирования пользователя"""
     model = User
     fields = [
         'id',
@@ -100,14 +106,6 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
         'is_active',
     ]
     success_url = reverse_lazy('users:user_list')
-
-    # def get_form_class(self):
-    #     user = self.request.user
-    #     if user.has_perm('users.can_view_user') and user.has_perm(
-    #             "users.can_change_user"
-    #     ):
-    #         return UserForm
-    #     raise PermissionDenied
 
 
 class UserDeleteView(LoginRequiredMixin, DeleteView):
