@@ -14,7 +14,7 @@ class User(AbstractUser):
     avatar = models.ImageField(upload_to='users/avatars/', verbose_name='аватар', **NULLABLE, help_text='загрузите свой аватар')
     token = models.CharField(max_length=100, verbose_name='Token', **NULLABLE)
     is_active = models.BooleanField(default=True, verbose_name='активный')
-    USERNAME_FIELD = "email"
+    USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
     class Meta:

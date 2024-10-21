@@ -36,7 +36,7 @@ class UserForm(StyleFormMixin, ModelForm):
     """Форма для блокировки пользователя"""
     class Meta:
         model = User
-        fields = ("is_active",)
+        fields = ('is_active',)
 
 
 class ResetPasswordForm(StyleFormMixin, PasswordResetForm):
