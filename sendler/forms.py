@@ -20,7 +20,7 @@ class ClientForm(StyleFormMixin, ModelForm):
 
     class Meta:
         model = Client
-        fields = ('email', 'first_name', 'last_name', 'comment', 'owner')
+        fields = ('email', 'first_name', 'last_name', 'comment')
 
 
 class MessageForm(StyleFormMixin, ModelForm):
@@ -28,7 +28,7 @@ class MessageForm(StyleFormMixin, ModelForm):
 
     class Meta:
         model = Message
-        fields = ('message_title', 'message_text', 'owner')
+        fields = ('message_title', 'message_text')
 
 
 class MailSettingsForm(StyleFormMixin, ModelForm):
