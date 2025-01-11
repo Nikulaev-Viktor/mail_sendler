@@ -14,7 +14,7 @@
 
     <!-- Bootstrap core CSS -->
     <link href="{% static 'css/bootstrap.min.css'%}" rel="stylesheet"
-          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+         crossorigin="anonymous">
     <!-- Favicons -->
 
     <meta name="theme-color" content="#7952b3">
@@ -224,8 +224,8 @@
         <!-- START THE FEATURETTES -->
 
 <hr class="featurette-divider">
-        {% for object in random_posts %}
 
+{% for object in random_posts %}
     <div class="row featurette">
         {% if forloop.counter|divisibleby:2 %}
             <div class="col-md-7 order-md-2">
@@ -234,21 +234,18 @@
         {% endif %}
                 <h2 class="featurette-heading">{{ object.title }}</h2>
                 <p class="lead">{{ object.content|truncatechars:200 }}</p>
-                <small class="text-body-secondary">Дата создания {{ object.created_at }}</small>
+                <small class="text-body-secondary">Дата создания: {{ object.created_at }}</small>
                 <br>
-                <small class="text-body-secondary">Количество просмотров {{ object.views_count }}</small>
+                <small class="text-body-secondary">Количество просмотров: {{ object.views_count }}</small>
                 <br>
-
-
-                <br>
-                <a class="btn btn-secondary" href="{% url 'blog:detail' object.pk %}">Читать статью &raquo;</a>
+                <a class="btn btn-secondary mt-3" href="{% url 'blog:detail' object.pk %}">Читать статью &raquo;</a>
             </div>
+
             <div class="col-md-5">
-                <img src="/media/{{ object.preview }}" width="500" height="500">
+                <img src="/media/{{ object.preview }}"  width="500" height="500">
             </div>
-        </div>
-        <hr class="featurette-divider">
     </div>
+    <hr class="featurette-divider">
 {% endfor %}
 
 
@@ -266,7 +263,7 @@
 
 
 <script src="{% static 'js/bootstrap.bundle.min.js'%}"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+
         crossorigin="anonymous"></script>
 
 
